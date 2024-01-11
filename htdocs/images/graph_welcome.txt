@@ -1,0 +1,17 @@
+<hr></hr> 
+<p>
+  This interactive graphing tool presents current and historic water​-level data collected by the 
+  U.S. Geological Survey (USGS), Oregon Water Resources Department (OWRD), and
+  California Department of Water Resources (CDWR).
+  This interactive graphing tool presents
+  discrete groundwater information that have been collected at a single site so that the
+  user can quickly focus on a point of interest and examine it
+  further.
+</p> 
+<p>
+  Users are cautioned to consider the nature of the information
+  presented here before making decisions using it that concern personal
+  or public safety or the conduct of business that involves substantial
+  monetary or operational consequences.  Some data is provisional and
+  may be subject to revision.
+</p>

@@ -1,0 +1,718 @@
+/* CSS library for jQuery and flot.
+ *
+ * flot.css is a CSS file to specify styling
+ *  information such as the discrete water-quality measurements for a site(s).
+ *
+ * version 2.02
+ * January 10, 2024
+ */
+
+/*
+###############################################################################
+# Copyright (c) Oregon Water Science Center
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+###############################################################################
+*/
+
+ #header 
+   {  
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 12.0pt;
+    font-weight: bold;
+    text-align: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    color:#333;
+   }
+
+ #plot_title
+   {  
+    margin-top: 10px;
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 12.0pt;
+    font-weight: bold;
+    text-align: center;
+   }
+
+ #footer 
+   {
+    height: 40px;
+    line-height: 40px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+    color: #ffffff;
+    background: #8c8c8c;
+   }	        
+
+ #anotherSite 
+   {
+    display: inline-block;
+    width:  400px;
+    margin-left: 30px;
+    margin-right: auto;
+    margin-top: 25px;
+    font-size: 12px;
+    color: #999;
+   }	        
+
+ .flot_graphs 
+   {  
+    margin-left: 30px;
+    margin-bottom: 10px;
+   }
+
+ .zoom_period_plot, .period_selected_plot
+   {  
+    vertical-align: top;
+    margin-bottom: 20px;
+   }
+
+ #period_selected
+   {  
+    vertical-align: top;
+   }
+
+ .flot_placeholder 
+   {  
+    width:  600px;
+    height: 300px;
+   }
+
+ .flot_legend
+   {  
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+   }
+
+ .flot_overview
+   {  
+    width:  600px;
+    height: 130px;
+   }
+
+ .flot_plot_labels, .flot-text
+   {  
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 9.0pt;
+    font-weight: bold;
+    text-align: left;
+    color:#333;
+   }
+
+ .y1axisLabel, .flot-x-axis, .flot-y-axis
+   {  
+    font-family: Verdana, Arial, Helvetica, Tahoma, sans-serif;
+    font-size: 9pt !important;
+    font-weight: bold !important;
+    color: #000000;
+   }
+
+ .flot-y-axis
+   {  
+    text-align: right;
+   }
+
+ .flot-x-axis
+   {  
+    text-align: center;
+   }
+   
+ .flot_tooltip
+    {
+      position: absolute;
+      border: 1px solid black;
+      border-radius: 0.5em;
+      padding: 0.4em 0.6em;
+      background-color: #D3D3D3;
+      background: #D3D3D3;
+      opacity: 1.0;
+      color: black;
+      font-family: Verdana, Arial, Helvetica;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-align: left;
+      z-index: 1;
+      opacity: 1.0;
+    }
+
+ .flot_hoverdata
+   {  
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+   }
+
+ .flot_checktooltip
+   {  
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+    margin-left: 0px;
+    vertical-align: middle;
+   }
+
+ .flot_instructions
+   {  
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+    font-weight: bold;
+    text-align: left;
+   }
+
+ .tickLabel
+   {
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+    font-weight: bold;
+    color: #000000;
+   }
+
+ .axisLabels
+   {  
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 9.0pt;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+   }
+
+ .tickLabels .xAxis .tickLabel
+   {
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+    font-weight: bold;
+   }
+
+ .yaxisLabel
+   {
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 9.0pt;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+   }
+
+ .y0Axis
+   {
+    color: #8A0808;
+   }
+
+ .y1Axis
+   {
+    color: #8A0808;
+   }
+
+ .y2Axis
+   {
+    color: #21610B;
+   }
+
+ .y3Axis
+   {
+    color: #08298A;
+   }
+
+ #scanner_tooltip 
+   { 
+    height: 30px;
+    vertical-align: top;
+    text-align: left;
+   } 
+
+ #explanation
+   {
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 11.0pt;
+    font-weight: bold;
+    margin-left: 0px;
+    text-align: left;
+    color:#000000;
+   }
+
+ .legendTable
+   {
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 9.0pt !important;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #000000;
+    border: 0px;
+   }
+
+.legendEntries {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 400px;
+}
+
+.legendSymbol {
+    padding-top: 2px;
+}
+
+ .list-group-item
+   {
+    border: 0px;
+    white-space: nowrap;
+   }
+
+ td
+   {
+    padding: 2px;
+   }
+
+ .legendLabel
+   {
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    color: #000000;
+   }
+
+ .legendLine 
+   { 
+    width: 20px;
+    height: 0px;
+    border-bottom: 4px solid #f00;
+   } 
+
+ .legendSquare 
+   { 
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 0.75rem;
+    bottom: 0.3rem;
+    background: transparent;
+   } 
+
+ .legendFilledSquare 
+   { 
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 1.0rem;
+    bottom: 0.3rem;
+    background: transparent;
+   } 
+
+ .legendRectangle 
+   { 
+    width: 10px;
+    height: 10px;
+    border: 2px solid;
+   } 
+
+ .legendFilledRectangle 
+   { 
+    width: 10px;
+    height: 10px;
+    border: 5px solid #f00;
+   } 
+
+ .legendCross, .legendT
+   {  
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 0.75rem;
+    bottom: 0.2rem;
+    background: transparent;
+   }
+
+ .legendX
+   {  
+    display: inline-block; 
+    width: 5px;
+    height: 5px;
+    position: relative;
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg); /* IE 9 */
+    -webkit-transform:rotate(45deg); /* Safari and Chrome */
+   }
+
+ .legendDiamond
+   {  
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 0.75rem;
+    bottom: 0.4rem;
+    background: transparent;
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg); /* IE 9 */
+    -webkit-transform:rotate(45deg); /* Safari and Chrome */
+   }
+
+ .legendDiamondCss
+   {  
+    display: inline-block; 
+    width: 9px;
+    height: 9px;
+    position: relative;
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg); /* IE 9 */
+    -webkit-transform:rotate(45deg); /* Safari and Chrome */
+    border: 2px solid #f00;
+    top: 3px;
+   }
+
+ .legendFilledDiamond
+   {  
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 1.0rem;
+    bottom: 0.6rem;
+    background: transparent;
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg); /* IE 9 */
+    -webkit-transform:rotate(45deg); /* Safari and Chrome */
+   }
+
+ .legendFilledDiamondCss
+   {  
+    display: inline-block; 
+    width: 9px;
+    height: 9px;
+    position: relative;
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg); /* IE 9 */
+    -webkit-transform:rotate(45deg); /* Safari and Chrome */
+    border: 5px solid #f00;
+    top: 3px;
+   }
+
+ .legendUpHollowTriangle
+   {
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 0.75rem;
+    bottom: 0.3rem;
+    background: transparent;
+    }
+
+ .legendUpFilledTriangle,
+ .legendDownFilledTriangle,
+ .legendRightFilledTriangle,
+ .legendLeftFilledTriangle
+   {
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 1.25rem;
+    bottom: 0.6rem;
+    background: transparent;
+    }
+
+ .legendDownHollowTriangle
+   {
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 0.75rem;
+    bottom: 0.3rem;
+    background: transparent;
+    }
+
+ .legendRightHollowTriangle, .legendLeftHollowTriangle
+   {
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 0.75rem;
+    bottom: 0.3rem;
+    background: transparent;
+    }
+
+ .legendUpTriangleCss
+   {  
+    display: inline-block; 
+    width: 0;
+    height: 0;
+    font-weight: bold;
+    font-size: 12.0pt;
+    margin-top: 0px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid red;
+   }
+
+ .legendDownTriangle
+   {  
+    display: inline-block; 
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid red;
+   }
+
+ .legendCircle
+   {  
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 0.75rem;
+    bottom: 0.2rem;
+    background: transparent;
+   }
+
+ .legendSphere
+   {  
+    position: relative;
+    font-family: "Lucida Sans Unicode", "Arial Unicode MS";
+    font-size: 1.25rem;
+    bottom: 0.6rem;
+    background: transparent;
+   }
+
+ .legendCircleCss
+   {  
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: 2px;
+    left: 1px;
+    -moz-border-radius : 50%; /* Firefox */
+    -webkit-border-radius : 50%; /* Safari & Chrome */
+    -khtml-border-radius : 50%; /* Linux browsers */ 
+    border-radius : 50% 50% 50% 50%; /* CSS3 compatible browsers */
+    background: transparent;
+    border: 2px solid #f00;
+   }
+
+ .legendSphereCss
+   {  
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: 0px;
+    left: 1px;
+    -moz-border-radius : 50%; /* Firefox */
+    -webkit-border-radius : 50%; /* Safari & Chrome */
+    -khtml-border-radius : 50%; /* Linux browsers */ 
+    border-radius : 50% 50% 50% 50%; /* CSS3 compatible browsers */
+    background: #f00;
+   }
+
+ .legendValue
+   { 
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 8.0pt;
+    font-weight: bold;
+    width: 60px;
+    vertical-align: center;
+    text-align: right;
+   } 
+
+/* Qualification codes assigned to IV and DV data records
+*/
+ #legend_&
+   { 
+    color: #4D94FF;
+   } 
+
+ #legend_e
+   { 
+    color: #FF9999;
+   } 
+
+ #legend_<
+   { 
+    color: #F0C2FF;
+   } 
+
+ #legend_>
+   { 
+    color: #FFB894;
+   } 
+
+ #legend_1
+   { 
+    color: #E0A366;
+   } 
+
+ #legend_2
+   { 
+    color: #FFAD5C;
+   } 
+
+ #legend_A
+   { 
+    color: #99C2EB;
+   } 
+
+ #legend_B
+   { 
+    color: #FFFF33;
+   } 
+
+ #legend_D
+   { 
+    color: #F0D1FF;
+   } 
+
+ #legend_E
+   { 
+    color: #99FFEB;
+   } 
+
+ #legend_F
+   { 
+    color: #D8C4FF;
+   } 
+
+ #legend_I
+   { 
+    color: #B2E0C2;
+   } 
+
+ #legend_K
+   { 
+    color: #D1D119;
+   } 
+
+ #legend_R
+   { 
+    color: #CEADFF;
+   } 
+
+ #legend_T
+   { 
+    color: #A9A5A5;
+   }
+
+ #legend_X
+   { 
+    color: #99EBC1;
+   } 
+
+/* Status codes for IV and DV records assigned by the use of nw_edit
+*/
+ #legend_--
+   { 
+    color: #99FFEB;
+   } 
+
+ #legend_***
+   { 
+    color: #CEADFF;
+   } 
+
+ #legend_Bkw
+   { 
+    color: #99EBC1;
+   } 
+
+ #legend_Dis
+   { 
+    color: #FFFF33;
+   } 
+
+ #legend_Dry
+   { 
+    color: #99C2EB;
+   } 
+
+ #legend_Eqp
+   { 
+    color: #E0A366;
+   } 
+
+ #legend_Fld
+   { 
+    color: #FFB894;
+   } 
+
+ #legend_Ice
+   { 
+    color: #C0DCED;
+   } 
+
+ #legend_Mnt
+   { 
+    color: #D8C4FF;
+   } 
+
+ #legend_Pr
+   { 
+    color: #F0C2FF;
+   } 
+
+ #legend_Rat
+   { 
+    color: #A6C9FF;
+   } 
+
+ #legend_Ssn
+   { 
+    color: #FF4D4D;
+   } 
+
+ #legend_ZFl
+   { 
+    color: #D1D119;
+   } 
+
+/* Data aging codes assigned to IV and DV data records
+*/
+ #legend_A
+   { 
+    color: #CCFFCC;
+   } 
+
+ #legend_P
+   { 
+    color: #FFE0FF;
+   } 
+
+/* Colors for graphing tool
+*/
+ #color_1
+   { 
+    color: #8A0808;
+   } 
+ #color_2
+   { 
+    color: #21610B;
+   } 
+ #color_3
+   { 
+    color: #08298A;
+   } 
+ #color_4
+   { 
+    color: #CDC22E;
+   }
+ #color_5
+   { 
+    color: #B02ECD;
+   }
+ #color_6
+   { 
+    color: #3FCCC5;
+   }
+ #color_7
+   { 
+    color: #A37327;
+   }
+ #color_8
+   { 
+    color: #9CEB74;
+   }
+ #color_9
+   { 
+    color: #958986;
+   }

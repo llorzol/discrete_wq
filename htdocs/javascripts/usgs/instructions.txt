@@ -1,0 +1,16 @@
+
+ Additional symbols for flot
+=======================================================================
+https://www.vertex42.com/ExcelTips/unicode-symbols.html#geometric
+
+
+
+   // Request for water-quality information
+   //
+   //var request_type = "GET";
+   var script_http  = "https://nwis.waterdata.usgs.gov/nwis/qwdata/?";
+   var data_http    = "site_no=" + site_no;
+   data_http       += "&agency_cd=" + agency_cd;
+   data_http       += "&format=rdb";
+   data_http       += "&date_format=YYYY-MM-DD";
+   data_http       += "&qw_sample_wide=wide";
