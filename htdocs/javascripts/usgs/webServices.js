@@ -3,8 +3,8 @@
  * A JavaScript library to retrieve NwisWeb information
  * such as the discrete groundwater measurements for a site(s).
  *
- * version 3.01
- * January 8, 2024
+ * version 3.02
+ * January 28, 2024
  */
 /*
 ###############################################################################
@@ -336,8 +336,14 @@ function parseWqRDB(dataRDB) {
                 if (myPcodesInfo.test(fileLine)) {
                     var Fields = fileLine.split(/\s+/);
                     var parameter_cd = Fields[1];
-                    myParameters[parameter_cd] = {};
-                    myParameters[parameter_cd] = Fields.slice(3).join(" ");
+
+                    // Remove parameter codes in unParameterCodes [No need to graph these parameter codes]
+                    //
+                    if (jQuery.inArray(parameter_cd, unParameterCodes) < 0)
+                    {
+                        myParameters[parameter_cd] = {};
+                        myParameters[parameter_cd] = Fields.slice(3).join(" ");
+                    }
                 }
             }
         }
