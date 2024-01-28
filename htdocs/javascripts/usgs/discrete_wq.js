@@ -4,8 +4,8 @@
  * Discrete_wq is a JavaScript library to provide a set of functions to build
  *  a Discrete Water-Quality Web Site.
  *
- * version 3.06
- * January 10, 2024
+ * version 3.07
+ * January 27, 2024
 */
 
 /*
@@ -34,39 +34,38 @@
 
 var SiteInfo         = {};
 var myParameterCodes = {};
+
+// No need to graph these parameter codes
+//
+var unParameterCodes = [
+    'P00003', // Sampling depth, feet
+    'P00004', // Stream width, feet
+    'P00009', // Location in cross section, distance from left bank looking downstream, feet
+    'P00028', // Agency analyzing sample, code
+    'P00060', // Discharge, cubic feet per second
+    'P00061', // Discharge, instantaneous, cubic feet per second
+    'P00063', // Number of sampling points, count
+    'P00064', // Mean depth of stream, feet
+    'P71999', // Sample purpose, code
+    'P72104', // Sample location, distance downstream, feet
+    'P72105', // Sample location, distance upstream, feet
+    'P72217', // Duration sampler collected water, seconds
+    'P72219', // Sampler nozzle material, code
+    'P72220', // Sampler nozzle diameter, code
+    'P82073', // Starting time, 24 hour clock, hour-minute (hhmm)
+    'P82074', // Ending time, 24 hour clock, hour-minute (hhmm)
+    'P82398', // Sampling method, code
+    'P84164', // Sampler type, code
+    'P99111'  // Type of quality assurance data associated with sample, code
+];
    
 var agency_cd        = "";
 var site_no          = ""
-
-// Configuration for About
-//
-var aboutFiles       = {
-                        "welcome" :              "wq_welcome.txt",
-                        "general_instructions" : "wq_general_instructions.txt",
-                        "graphFeatures" :        "wq_graphFeatures.txt",
-                        "contacts" :             "wq_contacts.txt"
-                       };
 
 // Prepare when the DOM is ready 
 //
 $(document).ready(function() 
   {
-  // Insert accordion text
-  //
-  jQuery.each(aboutFiles, function(keyItem, keyFile) {
-  
-      var InfoText = loadText(keyFile);
-  
-      jQuery("span#" + keyItem).html(InfoText);
-  
-  });
-
-   // Setup
-   //
-   //jQuery(".content").hide();
-   //jQuery("#footer").show();
-   //jQuery('#enableTooltip').prop('checked',true);
-
    // Nav Bar help tooltips
    //
    setHelpTip("#aboutHelp", "Click this for information about this web site.", "right");
@@ -457,7 +456,7 @@ function availableParameters(myParams)
         var param_nm = myParams[param_cd]['param_nm'];
         var param_tx = '[' + param_cd + '] -- ' + param_nm;
 
-        ParmList.push('<li id="' + param_cd + '"><a href="#">' + param_tx + '</a></li>');
+        ParmList.push('<li id="' + param_cd + '" class="dropdown-item" ><a href="#">' + param_tx + '</a></li>');
        }
 
    jQuery('.available-parameters').html(ParmList.join(" "));
