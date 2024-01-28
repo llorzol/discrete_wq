@@ -4,8 +4,8 @@
  * Discrete_wq is a JavaScript library to provide a set of functions to build
  *  a Discrete Water-Quality Web Site.
  *
- * version 3.07
- * January 27, 2024
+ * version 3.08
+ * January 28, 2024
 */
 
 /*
