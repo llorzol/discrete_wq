@@ -3,8 +3,8 @@
  * Wq_Graphing is a JavaScript library to graph NwisWeb water-quality
  *  information such as the discrete water-quality measurements for a site(s).
  *
- * version 3.02
- * January 10, 2024
+ * version 3.03
+ * January 27, 2024
  */
 
 /*
@@ -618,7 +618,6 @@ function plotDiscreteWq(site_no, SiteInfo, myWQ)
 
            legend_txt.push(' </div>');
   });
-   jQuery(".legendCircle").corner("3px");
 
    legend_txt.push(' </div">');
    legend_txt.push(' </div">');
