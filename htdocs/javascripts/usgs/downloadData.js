@@ -2,10 +2,10 @@
  * Namespace: downloadData
  *
  * downloadData is a JavaScript library to provide a set of functions to download
- *  groundwater measurements.
+ *  site information and measurements.
  *
- * version 2.02
- * January 10, 2024
+ * version 2.03
+ * January 16, 2024
 */
 
 /*
@@ -36,16 +36,17 @@
 //-------------------------------------------------
 jQuery("#downloadHelp").click(function() 
   {
+   console.log("Downloading data");
    var pathname = window.location.pathname;
    console.log("Page " + pathname);
 
   if(/discrete_gw/i.test(pathname))
     {
-     requestGwData(myGwData);
+     downloadGWData(myGwData);
     }
-  else if(/lith.html$/i.test(pathname))
+  else if(/lithology/i.test(pathname))
     {
-     requestLithData(agency_cd, site_no, coop_site_no, station_nm);
+     downloadLithData(coop_site_no);
     }
   else if(/well_construction.html$/i.test(pathname))
     {
@@ -71,57 +72,37 @@ headerLines.push('#');
 
 // Read parameter codes from NwisWeb
 //
-function requestGwData(agency_cd, site_no, coop_site_no, cdwr_id)
+function requestGwData(agency_cd, site_no, coop_site_no, station_nm)
   {
    message = "Requesting waterlevel measurements";
    openModal(message);
    fadeModal(4000)
 
-   // Loading message
-   //
-   var column = "site_no";
-   if(typeof site_no !== "undefined")
-     {
-      site_key = site_id;
-     }
-   else if(typeof site_id !== "undefined")
-     {
-      site_key = site_id;
-      column   = "site_id";
-     }
-   else if(typeof coop_site_no !== "undefined")
-     {
-      site_key = coop_site_no.replace(/\s+/,"_",6);
-      column   = "coop_site_no";
-     }
-   else if(typeof cdwr_id !== "undefined")
-     {
-      site_key = cdwr_id;
-      column   = "cdwr_id";
-     }
+   closeModal();
 
    // Loading message
    //
-   message = "Processing groundwater information for site " + site_key;
+   message = "Processing groundwater information for site " + site_id;
    openModal(message);
 
    // Request for site service information
    //
    var request_type = "GET";
-   var script_http  = [cgiService, download_script].join("/");
-   var data_http    = download_url;
-   data_http       += [column, site_key].join("=");
+   var script_http  = "/cgi-bin/harney/requestGwRecords.py";
+   var data_http    = "coop_site_no" + "=" + coop_site_no;
+   //data_http       += "&format=rdb,1.0";
+   //data_http       += "&startDT=1900-12-01";
       
-   var dataType     = "text";
+   var dataType     = "json";
       
    // Web request
    //
-   webRequest(request_type, script_http, data_http, dataType, downloadData);
+   webRequest(request_type, script_http, data_http, dataType, downloadGwData);
   }
 
-// Read parameter codes from NwisWeb
+// Download groundwater measurements
 //
-function downloadData(GwInfo)
+function downloadGwData(GwInfo)
   {
    message = "Preparing waterlevel measurements";
    openModal(message);
@@ -388,6 +369,162 @@ function downloadData(GwInfo)
    // Change title
    // 
    jQuery(myWindow.document).prop("title", "Groundwater Measurement Information for Site " + title.join(" "));
+
+   closeModal();
+  }
+
+// Request data
+//
+function requestLithData(agency_cd, site_no, coop_site_no, station_nm)
+  {
+   message = "Requesting lithology measurements";
+   openModal(message);
+   fadeModal(4000)
+
+   closeModal();
+
+   // Loading message
+   //
+   message = "Processing lithology information for site " + coop_site_no;
+   openModal(message);
+
+   // Request information
+   //
+   var request_type = "GET";
+   var script_http  = "/cgi-bin/lithology/requestLithRecords.py";
+   var data_http    = "coop_site_no" + "=" + coop_site_no;
+      
+   var dataType     = "json";
+      
+   // Web request
+   //
+   webRequest(request_type, script_http, data_http, dataType, downloadLithData);
+  }
+
+// Output data
+//
+function downloadLithData(coop_site_no)
+  {
+   console.log("downloadLithData");
+
+   message = "Preparing lithology measurements";
+   openModal(message);
+   fadeModal(2000)
+
+   // Modify header lines
+   // 
+   headerLines.push('# retrieved: ' + (new Date()).toString())
+   headerLines.push('#');
+   headerLines.push('# US Geological Survey and OWRD lithology');
+   headerLines.push('#');
+   headerLines.push('# Data for the following 1 site(s) are contained in this file');
+
+   // Change header line
+   //
+   var titleList = [];
+   if(typeof agency_cd !== "undefined")
+     {
+      titleList.push(agency_cd);
+     }
+   if(typeof site_no !== "undefined")
+     {
+      titleList.push(site_no);
+     }
+   if(typeof coop_site_no !== "undefined")
+     {
+      titleList.push(coop_site_no);
+     }
+   if(typeof station_nam !== "undefined")
+     {
+      titleList.push(station_nam);
+     }
+   headerLines.push('#   Site ' + titleList.join(" "));
+      
+   headerLines.push('# -----------------------------------------------------------------------------------');
+   headerLines.push('#');
+   headerLines.push('# The fields in this file include:');
+   headerLines.push('# ---------------------------------');
+   headerLines.push('# well_logid                       OWRD well log ID');
+   headerLines.push('# start_depth                      Top of lithology in feet below land surface');
+   headerLines.push('# end_depth                        Bottom of lithology in feet below land surface');
+   headerLines.push('# top                              Elevation of top of lithology in feet');
+   headerLines.push('# bot                              Elevation of bottom of lithology in feet');
+   headerLines.push('# lithology                        Principle lithology');
+   headerLines.push('# driller_lithology                Lithology recorder by driller');
+   headerLines.push('# primary_color                    Principle color');
+   headerLines.push('# elevation_datum                  Vertical datum reference');
+   headerLines.push('# water_bearing_zone               Indicates water bearing');
+   headerLines.push('# water_bearing_zone_water_level   Indicates water bearing level');
+   headerLines.push('#');
+
+   // Information
+   //
+   var dataLines       = [];
+   var myFields = [
+                   'site_number',
+                   'start_depth',
+                   'end_depth',
+                   'top',
+                   'bot',
+                   'lithology',
+                   'driller_lithology',
+                   'color',
+                   'elevation_datum',
+                   'water_bearing_zone',
+                   'water_bearing_zone_water_level'
+                  ];
+      
+   // Build output
+   //
+   headerLines.push(myFields.join("\t"));
+
+   // Lithology
+   //
+   lithologyData              = LithologyInfo.WellLithology;
+  
+   // Plot specs
+   //
+   lsd_elevation              = LithologyInfo.lsd_elevation;
+   elevation_datum            = LithologyInfo.elevation_datum;
+   altitude_accuracy          = LithologyInfo.altitude_accuracy;
+
+   // Loop through lithology
+   //
+   var tempData     = lithologyData.slice();
+   var dataLines    = [];
+    
+   while ( tempData.length > 0 ) {
+
+        var lithRecord    = tempData.shift();
+        var dataLine      = [];
+
+        var top           = lsd_elevation - lithRecord['start_depth'];
+        lithRecord['top'] = top.toFixed(altitude_accuracy);
+        var bot           = lsd_elevation - lithRecord['end_depth'];
+        lithRecord['bot'] = bot.toFixed(altitude_accuracy);
+       
+        lithRecord['elevation_datum'] = elevation_datum
+
+        for(var i = 0; i < myFields.length; i++)
+           {
+            var Record = lithRecord[myFields[i]];
+            dataLine.push(Record);
+           }
+        dataLines.push(dataLine.join("\t"));
+   }
+
+   // Output
+   //
+   var myWindow = window.open('', '_blank', '');
+   var myData   = headerLines.join("\n");
+   myData     += "\n";
+   myData     += dataLines.join("\n");
+
+   jQuery(myWindow.document.body).html('<pre>' + myData + '</pre>');
+
+   // Change title
+   // 
+   jQuery(myWindow.document).prop("title", "Lithology Information for Site " + title);
 
    closeModal();
   }
