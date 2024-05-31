@@ -1,204 +1,197 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title id="title">USGS Discrete Water-Quality Grapher</title>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
- <meta charset="utf-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
- <meta name="viewport" content="width=device-width,initial-scale=1.0">
- 
- <title id="title">USGS Discrete Water-Quality Grapher</title>
+    <!-- meta -->
+    <!--#include virtual="includes/meta_inc.html" -->
 
-  <!-- css -->
-  <!--#include virtual="DrupalVisID/includes/meta-css.html" -->
-  <!--#include virtual="includes/css_inc.html" -->
-  <!-- end css -->
+    <!-- css -->
+    <!--#include virtual="DrupalVisID/includes/meta-css.html" -->
+    <!--#include virtual="includes/css_inc.html" -->
+    <!-- end css -->
 
-</head>
+  </head>
 
-<body id="offwhite">
+  <body id="offwhite">
 
-  <!--#include virtual="DrupalVisID/includes/header_WRET.html"-->
+    <!--#include virtual="DrupalVisID/includes/header_WRET.html"-->
 
-  <!-- Container Section -->         
-  <div id="about" class="container">
+    <!-- Container Section -->
+    <div id="about" class="container">
 
-    <!-- Page Heading/Breadcrumbs -->
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="clear title title_top">U.S. Geological Survey</div>
-        <div class="clear title title_2">USGS Discrete Water-Quality Grapher</div>
+      <!-- Page Heading/Breadcrumbs -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="clear title fs-2 mt-3 mb-3">U.S. Geological Survey</div>
+          <div class="clear title fs-2 mb-3">USGS Discrete Water-Quality Grapher</div>
+        </div>
       </div>
-    </div>
-    <!-- End Page Heading/Breadcrumbs -->
+      <!-- End Page Heading/Breadcrumbs -->
 
-    <!-- Nav Bar -->
-    <div class="row">
-      <div class="col-sm-12">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="javascript:void(0)">
-              <img class="hydrographLogo" alt="Hydrograph Logo" src="images/hydrographLogo.png">
-              USGS Discrete Water-Quality Grapher
-            </a>
+      <!-- Nav Bar -->
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand text-start" href="javascript:void(0)">
+                <img class="hydrographLogo" alt="Hydrograph Logo" src="images/hydrographLogo.png">
+                USGS Discrete Water-Quality Grapher
+              </a>
 
-            <ul class="nav navbar-nav me-auto ps-5">
+              <ul class="nav navbar-nav me-auto ps-5">
 
-              <!--About-->
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
-                  <span id="aboutHelp" data-tooltip="on" data-placement="right">
-                    About
-                  </span>
-                </a>
-              </li>
+                <!--About-->
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                    <span id="aboutHelp" data-tooltip="on" data-placement="right">
+                      About
+                    </span>
+                  </a>
+                </li>
 
-              <!-- Available Parameters -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <span id="availableHelp" data-tooltip="on" data-placement="bottom">
-                    Available Parameters
-                  </span>
-                </a>
-                <ul class="dropdown-menu available-parameters">
-                </ul>
-              </li>
+                <!-- Available Parameters -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span id="availableHelp" data-tooltip="on" data-placement="bottom">
+                      Available Parameters
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu available-parameters">
+                  </ul>
+                </li>
 
-              <!--Help-->
-              <li class="nav-item ms-auto">
-                <a class="nav-link" href="#" onclick="setHelp(); return false;">
-                  <span id="helpHelp" data-tooltip="on" data-placement="left" title="Click to enable help text for features and tools">
-                    Help
-                  </span>
-                </a>
-              </li>
+                <!--Help-->
+                <li class="nav-item ms-auto">
+                  <a class="nav-link" href="#" onclick="setHelp(); return false;">
+                    <span id="helpHelp" data-tooltip="on" data-placement="left" title="Click to enable help text for features and tools">
+                      Help
+                    </span>
+                  </a>
+                </li>
 
-              <!--Download-->
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span id="downloadHelp" data-tooltip="on" data-placement="bottom">
-                    Download Data
-                  </span>
-                </a>
-              </li>
+                <!--Download-->
+                <li class="nav-item">
+                  <a class="nav-link" href="#">
+                    <span id="downloadHelp" data-tooltip="on" data-placement="bottom">
+                      Download Data
+                    </span>
+                  </a>
+                </li>
 
-            </ul>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Page content wrapper -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="plot_title" class="text-start"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <div id="zoom_period" class="flot_plot_labels">
+            Zoom period plot
           </div>
-        </nav>
-      </div>
-    </div>
-    
-
-    <!-- Page content wrapper -->
-    <div class="row">
-      <div class="col-sm-12">
-        <div id="plot_title" class="text-start"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-8">
-        <div id="zoom_period" class="flot_plot_labels">
-          Zoom period plot
+          <div class="zoom_period_plot">
+            <div id="placeholder" class="flot_placeholder"></div>
+          </div>
         </div>
-        <div class="zoom_period_plot">
-          <div id="placeholder" class="flot_placeholder"></div>
+
+        <div class="col-sm-4">
+          <div id="Legend" class="flot_legend"></div>
         </div>
       </div>
 
-      <div class="col-sm-4">
-        <div id="Legend" class="flot_legend"></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-12">
-        <div id="period_selected" class="flot_plot_labels">
-          Period selected plot
-        </div>
-        <div class="period_selected_plot">
-          <div id="overview" class="flot_overview"></div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="period_selected" class="flot_plot_labels">
+            Period selected plot
+          </div>
+          <div class="period_selected_plot">
+            <div id="overview" class="flot_overview"></div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-sm-12">
-        <div id="explanation">
-          <p id="checktooltip" class="flot_checktooltip">
-            <input id="enableTooltip" type="checkbox" />
-            Enable tooltip
-          </p>
-          <p id="reset" class="flot_instructions">Tip: To reset zoom period to period selected, double left-click in the &#34;Period selected&#34; plot.</p>
-          <p id="p_str" class="flot_instructions">Tip: To zoom to a shorter period, left-click and drag over the period of interest in either graph.</p>
-          <p id="note" class="flot_instructions">Note:  Censored and estimated values are included in the graph.
-            Values less than a reporting or detection limit are plotted at that limit.
-            Enable tooltips and hover over the point to see whether the value is qualified.</p>
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <div id="explanation">
+            <p id="checktooltip" class="flot_checktooltip">
+              <input id="enableTooltip" type="checkbox">
+              Enable tooltip
+            </p>
+            <p id="reset" class="flot_instructions">Tip: To reset zoom period to period selected, double left-click in the &#34;Period selected&#34; plot.</p>
+            <p id="p_str" class="flot_instructions">Tip: To zoom to a shorter period, left-click and drag over the period of interest in either graph.</p>
+            <p id="note" class="flot_instructions">Note:  Censored and estimated values are included in the graph.
+              Values less than a reporting or detection limit are plotted at that limit.
+              Enable tooltips and hover over the point to see whether the value is qualified.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-  </div> <!-- <div class="container"> -->
-  </div>
+    </div> <!-- <div class="container"> -->
 
-  <div class="row">
-    <div class="clearfix">
-      <br />
-      <!--#include virtual="DrupalVisID/includes/footer_WRET.html"-->
-    </div>
-  </div>
+    <!-- USGS Footer Template -->
+    <!--#include virtual="DrupalVisID/includes/footer_WRET.html"-->
 
- <!-- Start About Modal -->
- <div id="aboutModal" class="modal fade mx-auto rounded-5" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-   <div class="modal-content">
+      <!-- Start About Modal -->
+      <div id="aboutModal" class="modal fade mx-auto rounded-5" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
 
-    <div class="modal-header">
-     <span class="modal-title">USGS Discrete Water-Quality Grapher</span>
-     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-          
-    <div class="modal-body">
-     <div class="btn-group" role="group" aria-label="First group">
-      <button id="welcome" type="button" class="aboutButtons btn btn-secondary">Welcome</button>
-      <button id="graphFeatures" type="button" class="aboutButtons btn btn-secondary">Graph Features</button>
-      <button id="contacts" type="button" class="aboutButtons btn btn-secondary">Contact Us</button>
-     </div>
-            
-     <!-- /.aboutContent -->
-     <div id="aboutContent" class="aboutContent"></div>
-            
-    </div><!-- /.modal-body -->
-   </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
- </div><!-- /.modal -->
+            <div class="modal-header">
+              <span class="modal-title">USGS Discrete Water-Quality Grapher</span>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-  <!-- Local versions of required scripts -->
-  <!--[if IE]><script language="javascript" type="text/javascript" src="javascripts/flot/excanvas.min.js"></script><![endif]-->
-  <script language="javascript" type="text/javascript" src="javascripts/required/jquery.min.js"></script>
+            <div class="modal-body">
+              <div class="btn-group" role="group" aria-label="First group">
+                <button id="welcome" type="button" class="aboutButtons btn btn-secondary">Welcome</button>
+                <button id="graphFeatures" type="button" class="aboutButtons btn btn-secondary">Graph Features</button>
+                <button id="contacts" type="button" class="aboutButtons btn btn-secondary">Contact Us</button>
+              </div>
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script language="javascript" type="text/javascript" src="javascripts/required/popper.min.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/required/tether.min.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/required/bootstrap.min.js"></script>
+              <!-- /.aboutContent -->
+              <div id="aboutContent" class="aboutContent"></div>
 
-  <!-- Flot routines -->
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/flot/jquery.flot.min.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/flot/jquery.flot.symbol.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/flot/jquery.flot.selection.min.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/flot/jquery.flot.axislabels.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/flot/jquery.flot.time.min.js"></script>
+            </div><!-- /.modal-body -->
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
 
-  <!-- Custom flot plotting scripts -->
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/flot/jquery.flot.axis.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/flot/jquery.flot.wq_graphing.js"></script>
+      <!-- Local versions of required scripts -->
+      <!--[if IE]><script src="javascripts/flot/excanvas.min.js"></script><![endif]-->
+      <script src="javascripts/required/jquery.min.js"></script>
 
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/modal.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/webRequest.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/helpTips.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/downloadData.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/aboutContent.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/webServices.js"></script>
-  <script language="javascript" type="text/javascript" src="javascripts/usgs/discrete_wq.js"></script>
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="javascripts/required/popper.min.js"></script>
+      <script src="javascripts/required/tether.min.js"></script>
+      <script src="javascripts/required/bootstrap.min.js"></script>
 
-</body>
+      <!-- Flot routines -->
+      <script src="javascripts/usgs/flot/jquery.flot.min.js"></script>
+      <script src="javascripts/usgs/flot/jquery.flot.symbol.js"></script>
+      <script src="javascripts/usgs/flot/jquery.flot.selection.min.js"></script>
+      <script src="javascripts/usgs/flot/jquery.flot.axislabels.js"></script>
+      <script src="javascripts/usgs/flot/jquery.flot.time.min.js"></script>
+
+      <!-- Custom flot plotting scripts -->
+      <script src="javascripts/usgs/flot/jquery.flot.axis.js"></script>
+      <script src="javascripts/usgs/flot/jquery.flot.wq_graphing.js"></script>
+
+      <script src="javascripts/usgs/urlArguments.js"></script>
+      <script src="javascripts/usgs/modal.js"></script>
+      <script src="javascripts/usgs/webRequest.js"></script>
+      <script src="javascripts/usgs/helpTips.js"></script>
+      <script src="javascripts/usgs/downloadData.js"></script>
+      <script src="javascripts/usgs/aboutContent.js"></script>
+      <script src="javascripts/usgs/webServices.js"></script>
+      <script src="javascripts/usgs/discrete_wq.js"></script>
+
+  </body>
 </html>
