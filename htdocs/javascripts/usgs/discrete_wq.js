@@ -4,8 +4,8 @@
  * Discrete_wq is a JavaScript library to provide a set of functions to build
  *  a Discrete Water-Quality Web Site.
  *
- * version 3.08
- * January 28, 2024
+ * version 3.09
+ * May 30, 2024
 */
 
 /*
@@ -34,6 +34,8 @@
 
 var SiteInfo         = {};
 var myParameterCodes = {};
+var mySiteData;
+var myParmData;
 
 // No need to graph these parameter codes
 //
@@ -59,8 +61,11 @@ var unParameterCodes = [
     'P99111'  // Type of quality assurance data associated with sample, code
 ];
    
-var agency_cd        = "";
-var site_no          = ""
+var agency_cd;
+var site_no;
+
+var message = "Need a NWIS USGS site number, which is a number ";
+message    += "consisting of 15 digits (example 433152121281301). ";
 
 // Prepare when the DOM is ready 
 //
@@ -78,7 +83,6 @@ $(document).ready(function()
    // Current url
    //-------------------------------------------------
    var url     = new URL(window.location.href);  
-   console.log("Current Url " + window.location.href);
 
    // Parse
    //-------------------------------------------------
@@ -92,30 +96,25 @@ $(document).ready(function()
       agency_cd  = "USGS";
      }
 
-   // No site number specified
-   //
-   if(!site_no)
+   // Check arguments
+   //-------------------------------------------------
+   if(site_no)
      {
-      var message = "<p>Error loading discrete water-quality records<br />Require Nwis site number</p>";
-      message_dialog(message);
-      openModal(message);
-      fadeModal(4000)
-
-      return;
+       if(!checkSiteNo(site_no))
+          {
+            openModal(message);
+            fadeModal(3000);
+            return;
+          }
      }
 
-   // Check site number specified
-   //
-   site_no = checkSiteNo(site_no);
-   if(!site_no)
-     {
-      var message = "<p>Error loading discrete water-quality records<br />Require Nwis site number</p>";
-      message_dialog(message);
-      openModal(message);
-      fadeModal(4000)
+   else {
 
-      return;
-     }
+     // Loading message
+     //
+     openModal(message);
+     fadeModal(3000);
+   }
    
    message = "Requesting general site and  discrete water-quality measurement for site " + site_no;
    openModal(message);
@@ -134,11 +133,24 @@ $(document).ready(function()
       
    // Web request
    //
-   webRequests.push($.ajax( {
-                             method:   request_type,
-                             url:      script_http, 
-                             data:     data_http, 
-                             dataType: dataType
+    webRequests.push($.ajax( {
+      method:   request_type,
+      url:      script_http,
+      data:     data_http,
+      dataType: dataType,
+      success: function (myData) {
+        message = "Processed site information";
+        openModal(message);
+        fadeModal(2000);
+        mySiteData = parseSiteRDB(myData);
+        console.log(`mySiteData ${mySiteData}`);
+      },
+      error: function (error) {
+        message = `Failed to load site information ${error}`;
+        openModal(message);
+        fadeModal(2000);
+        return false;
+      }
    }));
 
    // Request for discrete water-quality measurement information
@@ -153,266 +165,37 @@ $(document).ready(function()
       
    // Web request
    //
-   webRequests.push($.ajax( {
-                             method:   request_type,
-                             url:      script_http, 
-                             data:     data_http, 
-                             dataType: dataType
+    webRequests.push($.ajax( {
+      method:   request_type,
+      url:      script_http,
+      data:     data_http,
+      dataType: dataType,
+      success: function (myData) {
+        message = "Processed water-quality measurement information";
+        openModal(message);
+        fadeModal(2000);
+        myParmData = parseWqRDB(myData);
+        console.log(`myParmData ${myParmData}`);
+      },
+      error: function (error) {
+        message = `Failed to load water-quality measurement information ${error}`;
+        openModal(message);
+        fadeModal(2000);
+        return false;
+      }
    }));
 
    // Run ajax requests
    //
-   var j       = 0;
-   $.when.apply($, webRequests).then(function() {
-        //console.log('Responses');
-        //console.log("Responses length " + arguments.length);
-        //console.log(arguments);
+    $.when.apply($, webRequests).then(function() {
 
-        // Retrieve site information
-        //
-        var i = 0;
-        if(arguments.length > 0)
-          {
-           var myInfo  = arguments[i];
-           //console.log("arguments " + i);
-           //console.log(arguments[i]);
+      fadeModal(2000);
 
-           if(myInfo[1] === "success")
-             {
-              // Loading message
-              //
-              message = "Processed site information";
-              openModal(message);
-              fadeModal(2000);
-
-              mySiteData = parseSiteRDB(myInfo[0]);
-              //console.log('mySiteData');
-              //console.log(mySiteData);
-             }
-            else
-             {
-              // Loading message
-              //
-              message = "Failed to load site information";
-              openModal(message);
-              fadeModal(2000);
-              return false;
-             }
-          }
-
-        // Retrieve water-quality measurement information
-        //
-        i++;
-        //console.log("Retrieve water-quality measurement information ");
-        //console.log(arguments[i]);
-        if(arguments.length > i)
-          {
-           var myInfo = arguments[i];
-
-           if(myInfo[1] === "success")
-             {
-              // Loading message
-              //
-              message = "Processed water-quality measurement information";
-              openModal(message);
-              fadeModal(2000);
-
-              myParmData = parseWqRDB(myInfo[0]);
-             }
-            else
-             {
-              // Loading message
-              //
-              message = "Failed to load water-quality measurement information";
-              openModal(message);
-              fadeModal(2000);
-              return false;
-             }
-          }
-
-        console.log("done with main");
-        fadeModal(2000);
-
-       // Plot water-quality records
-       //
-       plotDiscreteWq(site_no, mySiteData, myParmData);
-   });
-  })
-
-function checkSiteNo(site_no)
-  {
-   // Check site number
-   //
-   if(!site_no)
-     {
-      var message = "Incorrectly formatted USGS site number: ";
-      message    += "You must use the USGS station numbers, which are a number ";
-      message    += "from 8 to 15 digits long. ";
-      openModal(message);
-      fadeModal(4000)
-
-      return undefined;
-     }
-
-   // Is site number valid
-   //
-   site_no  = site_no.replace(/^\s+|\s+$/g,'');
-   var myRe = /^(\d{8,15})$/g;
-   if(!myRe.test(site_no))
-     {
-      var message = "Incorrectly formatted USGS site number: ";
-      message    += "You must use the USGS station numbers, which are a number ";
-      message    += "from 8 to 15 digits long. ";
-      openModal(message);
-      fadeModal(4000)
-
-      return undefined;
-     }
-
-   return site_no;
-  }
-
-function requestSiteInfo(site_no)
-  {
-   console.log("requestSiteInfo");
-   
-   message = "Requesting general site and  discrete water-quality measurement for site " + site_no;
-   openModal(message);
-
-   // Build ajax requests
-   //
-   var webRequests  = [];
-   
-   // Request for general site information
-   //
-   var request_type = "GET";
-   var script_http  = 'https://waterservices.usgs.gov/nwis/site/?format=rdb&siteStatus=all&hasDataTypeCd=qw'
-   var data_http    = "sites=" + site_no;
-         
-   var dataType     = "json";
-      
-   // Web request
-   //
-   webRequests.push($.ajax( {
-                             method:   request_type,
-                             url:      script_http, 
-                             data:     data_http, 
-                             dataType: dataType
-   }));
-
-   // Request for discrete water-quality measurement information
-   // 
-   // https://nwis.waterdata.usgs.gov/nwis/qwdata?search_site_no=11523000&format=rdb
-   // 
-   var request_type = "GET";
-   var script_http  = 'https://nwis.waterdata.usgs.gov/nwis/qwdata?format=rdb';
-   var data_http    = "search_site_no=" + site_no;
-         
-   var dataType     = "text";
-      
-   // Web request
-   //
-   webRequests.push($.ajax( {
-                             method:   request_type,
-                             url:      script_http, 
-                             data:     data_http, 
-                             dataType: dataType
-   }));
-
-   // Run ajax requests
-   //
-   var j       = 0;
-   $.when.apply($, webRequests).then(function() {
-        console.log('Responses');
-        console.log("Responses length " + arguments.length);
-        console.log(arguments);
-
-        // Retrieve site information
-        //
-        var i = 0;
-        if(arguments.length > 0)
-          {
-           var myInfo  = arguments[i];
-           console.log("arguments " + i);
-           console.log(arguments[i]);
-
-           if(myInfo[1] === "success")
-             {
-              // Loading message
-              //
-              message = "Processed site information";
-              openModal(message);
-              fadeModal(2000);
-
-              mySiteData = parseSiteRDB(myInfo[0]);
-              console.log('mySiteData');
-              console.log(mySiteData);
-             }
-            else
-             {
-              // Loading message
-              //
-              message = "Failed to load site information";
-              openModal(message);
-              fadeModal(2000);
-              return false;
-             }
-          }
-
-        // Retrieve water-quality measurement information
-        //
-        i++;
-        console.log("Retrieve water-quality measurement information ");
-        console.log(arguments[i]);
-        if(arguments.length > i)
-          {
-           var myInfo = arguments[i];
-
-           if(myInfo[1] === "success")
-             {
-              // Loading message
-              //
-              message = "Processed water-quality measurement information";
-              openModal(message);
-              fadeModal(2000);
-
-              myParmData = parseWqRDB(myInfo[0]);
-             }
-            else
-             {
-              // Loading message
-              //
-              message = "Failed to load water-quality measurement information";
-              openModal(message);
-              fadeModal(2000);
-              return false;
-             }
-          }
-
-        console.log("done with main");
-        fadeModal(2000);
-
-       // Plot water-quality records
-       //
-       plotDiscreteWq(mySiteData, myParmData);
-   });
-
-  }
-
-function processSiteInfo(myData)
-  {
-   console.log("processSiteInfo");
-
-   var site_no         = myJson.features[0].properties.site_no;
-   
-   SiteInfo.site_no    = myJson.features[0].properties.site_no;
-   SiteInfo.agency_cd  = myJson.features[0].properties.agency_cd;
-   SiteInfo.station_nm = myJson.features[0].properties.station_nm;
-   SiteInfo.site_tp_cd = myJson.features[0].properties.site_tp_cd;
-   SiteInfo.status     = myJson.features[0].properties.status;
-
-   return;
-  }
+      // Plot water-quality records
+      //
+      plotDiscreteWq(site_no, mySiteData, myParmData);
+    });
+  });
 
 function processDiscreteWqInfo(myData)
   {
