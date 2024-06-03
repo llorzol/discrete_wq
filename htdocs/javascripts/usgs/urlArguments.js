@@ -3,7 +3,7 @@
  * Main is a JavaScript library to graph NwisWeb well construction information
  * for a site(s).
  *
- * version 2.01
+ * version 2.02
  * May 30, 2024
  */
 
@@ -32,6 +32,13 @@
 */
 
 function checkSiteId(site_id) {
+
+  var message = "Incorrectly formatted USGS site number or OWRD well log ID or CDWR well number: ";
+  message    += "You must use the USGS station numbers, which are a number ";
+  message    += "from 8 to 15 digits long. ";
+  message    += "You must use the OWRD well log ID, which has a four-character county abbrevation ";
+  message    += "along with from 1 to 7 digit well number. ";
+  message    += "You must use the CDWR well numbers, which are 18-character string well number. ";
                 
     if(!site_id)
       {
@@ -68,6 +75,11 @@ function checkSiteId(site_id) {
       {
         return site_id;
       }
+                   
+    // Message
+    //
+    openModal(message);
+    fadeModal(6000)
                    
     // Return
     //
