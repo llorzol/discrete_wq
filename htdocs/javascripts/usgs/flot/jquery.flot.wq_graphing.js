@@ -3,7 +3,7 @@
  * Wq_Graphing is a JavaScript library to graph NwisWeb water-quality
  *  information such as the discrete water-quality measurements for a site(s).
  *
- * version 3.04
+ * version 3.05
  * June 3, 2024
  */
 
@@ -524,7 +524,7 @@ function plotDiscreteWq(site_no, SiteInfo, myWQ)
              {
                if(y_axis_number < 63)
                  {
-                     legend_txt.push('   <div id="legend_' + id + '" class="legendCircle" style="color: ' + color + ';">&#128903;</div>');
+                     legend_txt.push('   <div id="legend_' + id + '" class="legendCircle" style="color: ' + color + ';">&#9675;</div>');
                  }
                else
                  {
@@ -535,22 +535,22 @@ function plotDiscreteWq(site_no, SiteInfo, myWQ)
              {
                if(y_axis_number < 72)
                  {
-                  legend_txt.push('   <div id="legend_' + id + '" class="legendSquare" style="color: ' + color + ';">&#128912;</div>');
+                  legend_txt.push('   <div id="legend_' + id + '" class="legendSquare" style="color: ' + color + ';">&#9643;</div>');
                  }
                else
                  {
-                  legend_txt.push('   <div id="legend_' + id + '" class="legendFilledSquare" style="color: ' + color + ';">&#9632;</div>');
+                  legend_txt.push('   <div id="legend_' + id + '" class="legendFilledSquare" style="color: ' + color + ';">&#9642;</div>');
                  }
              }
            if(feature_type === "diamond")
              {
                if(y_axis_number < 81)
                  {
-                  legend_txt.push('   <div id="legend_' + id + '" class="legendDiamond" style="color: ' + color + ';">&#128912;</div>');
+                  legend_txt.push('   <div id="legend_' + id + '" class="legendDiamond" style="color: ' + color + ';">&#9671;</div>');
                  }
                else
                  {
-                  legend_txt.push('   <div id="legend_' + id + '" class="legendFilledDiamond" style="color: ' + color + ';">&#9632;</div>');
+                  legend_txt.push('   <div id="legend_' + id + '" class="legendFilledDiamond" style="color: ' + color + ';">&#9670;</div>');
                  }
              }
            if(feature_type === "triangle")
