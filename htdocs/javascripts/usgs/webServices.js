@@ -3,8 +3,8 @@
  * A JavaScript library to retrieve NwisWeb information
  * such as the discrete groundwater measurements for a site(s).
  *
- * version 3.02
- * January 28, 2024
+ * version 3.03
+ * June 4, 2024
  */
 /*
 ###############################################################################
@@ -463,8 +463,8 @@ function parseWqRDB(dataRDB) {
     if (jQuery.inArray(indexField, Fields) < 0) {
         var message = "Header line of column names does not contain " + indexField + " column\n";
         message += "Header line contains " + Fields.join(", ");
-        message_dialog("Warning", message);
-        close_dialog();
+        openModal(message);
+        fadeModal(3000);
         return false;
     }
 
@@ -746,8 +746,8 @@ function parseGwRDB(dataRDB) {
     if (jQuery.inArray(indexField, Fields) < 0) {
         var message = "Header line of column names does not contain " + indexField + " column\n";
         message += "Header line contains " + Fields.join(", ");
-        message_dialog("Warning", message);
-        close_dialog();
+        openModal(message);
+        fadeModal(3000);
         return false;
     }
 
@@ -868,8 +868,8 @@ function parseSiteRDB(dataRDB) {
     if (jQuery.inArray(indexField, Fields) < 0) {
         var message = "Header line of column names does not contain " + indexField + " column\n";
         message += "Header line contains " + Fields.join(", ");
-        message_dialog("Warning", message);
-        close_dialog();
+        openModal(message);
+        fadeModal(3000);
         return false;
     }
 
@@ -1019,8 +1019,8 @@ function parseSitePorRDB(dataRDB) {
     if (jQuery.inArray(indexField, Fields) < 0) {
         var message = "Header line of column names does not contain " + indexField + " column\n";
         message += "Header line contains " + Fields.join(", ");
-        message_dialog("Warning", message);
-        close_dialog();
+        openModal(message);
+        fadeModal(3000);
         return false;
     }
 
