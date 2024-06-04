@@ -4,8 +4,8 @@
  * Discrete_wq is a JavaScript library to provide a set of functions to build
  *  a Discrete Water-Quality Web Site.
  *
- * version 3.09
- * May 30, 2024
+ * version 3.10
+ * June 4, 2024
 */
 
 /*
@@ -82,24 +82,28 @@ $(document).ready(function()
       
    // Current url
    //-------------------------------------------------
-   var url     = new URL(window.location.href);  
+   var url    = new URL(window.location.href);  
 
    // Parse
    //-------------------------------------------------
-   agency_cd  = url.searchParams.get('agency_cd');
+   //agency_cd  = url.searchParams.get('agency_cd');
    site_no    = url.searchParams.get('site_no');
-
-   // Check agency code
-   //
-   if(!agency_cd)
-     {
-      agency_cd  = "USGS";
-     }
 
    // Check arguments
    //-------------------------------------------------
+   if(!site_no)
+     {
+     // Loading message
+     //
+     openModal(message);
+     fadeModal(3000);
+
+     return;
+   }
+
    if(site_no)
      {
+       console.log(`${checkSiteNo(site_no)}`)
        if(!checkSiteNo(site_no))
           {
             openModal(message);
@@ -115,6 +119,13 @@ $(document).ready(function()
      openModal(message);
      fadeModal(3000);
    }
+
+   // Check agency code
+   //
+   if(!agency_cd)
+     {
+      agency_cd  = "USGS";
+     }
    
    message = "Requesting general site and  discrete water-quality measurement for site " + site_no;
    openModal(message);
@@ -139,9 +150,9 @@ $(document).ready(function()
       data:     data_http,
       dataType: dataType,
       success: function (myData) {
-        message = "Processed site information";
-        openModal(message);
-        fadeModal(2000);
+        //message = "Processed site information";
+        //openModal(message);
+        //fadeModal(2000);
         mySiteData = parseSiteRDB(myData);
         console.log(`mySiteData ${mySiteData}`);
       },
@@ -171,9 +182,9 @@ $(document).ready(function()
       data:     data_http,
       dataType: dataType,
       success: function (myData) {
-        message = "Processed water-quality measurement information";
-        openModal(message);
-        fadeModal(2000);
+        //message = "Processed water-quality measurement information";
+        //openModal(message);
+        //fadeModal(2000);
         myParmData = parseWqRDB(myData);
         console.log(`myParmData ${myParmData}`);
       },
@@ -201,10 +212,11 @@ function processDiscreteWqInfo(myData)
   {
    console.log("processDiscreteWqInfo");
 
-   if(typeof myJson.message !== "undefined")
+   if(myJson.message)
      {
-      message = "Error loading discrete water-quality records";
+      message = `Error loading discrete water-quality records for site ${site_no}`;
       openModal(message);
+      fadeModal(6000);
 
       return;
      }
@@ -216,8 +228,9 @@ function processDiscreteWqInfo(myData)
 
    if(myParamsL.length < 1)
      {
-      message = "No discrete water-quality records";
+      message = `No discrete water-quality records for site ${site_no}`;
       openModal(message);
+      fadeModal(6000);
 
       return;
      }
